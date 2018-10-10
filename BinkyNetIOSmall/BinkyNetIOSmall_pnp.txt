@@ -1,0 +1,41 @@
+*Pick And Place List
+*Company=
+*Author=
+*eMail=
+*
+*Project=BinkyNetIOSmall
+*Date=20:40:50
+*CreatedBy=Fritzing 0.9.3b.04.19.5c895d327c44a3114e5fcc9d8260daf0cbb52806
+*
+*
+*Coordinates in mm, always center of component
+*Origin 0/0=Lower left corner of PCB
+*Rotation in degree (0-360, math. pos.)
+*
+*No;Value;Package;X;Y;Rotation;Side;Name
+1;;;20.562;-16.1177;0;Bottom;Via1
+2;10000;SIP-9;33.0499;-15.0593;180;Bottom;R4
+3;;;56.269;-18.4677;90;Bottom;TXT6
+4;;THT;3.98156;-6.18342;180;Bottom;JI2CB2
+5;100nF;100 mil [THT, multilayer];17.8105;-13.7893;180;Bottom;C1
+6;2.2k;THT;51.028;-17.8463;180;Bottom;R6
+7;;THT;34.3205;-21.4093;90;Bottom;JIO
+8;;;59.075;-6.45581;90;Bottom;TXT2
+9;;;34.3329;-12.3958;0;Bottom;TXT5
+10;;;1.83665;-6.26925;-90;Bottom;TXT2
+11;10µF;100 mil [THT, electrolytic];10.1905;-15.0593;0;Bottom;C3
+12;;sot89;16.3103;-19.0243;180;Top;Q1
+13;220;THT;52.1357;-3.37531;0;Bottom;R1
+14;220;THT;52.1851;-6.7267;0;Bottom;R2
+15;;DIP (Dual Inline) [THT];12.5893;-6.16931;-90;Bottom;IC2
+16;;THT;3.92512;-18.3049;180;Bottom;JI2CB1
+17;2.2k;THT;51.028;-21.2329;180;Bottom;R7
+18;220;THT;19.8837;-4.12723;-90;Bottom;R3
+19;;;35.0078;-24.0803;180;Bottom;TXT1
+20;0.1mF;100 mil [THT, electrolytic];10.1905;-21.4093;90;Bottom;C2
+21;;THT;59.4947;-18.6153;180;Bottom;JA
+22;;;43.2386;-18.3049;0;Bottom;Via2
+23;;;1.81811;-18.267;-90;Bottom;TXT2
+24;;DIP (Dual Inline) [THT];33.5062;-6.23772;-90;Bottom;IC3
+25;2.2k;THT;51.1409;-14.4031;180;Bottom;R5
+26;;THT;57.2671;-6.70753;0;Bottom;JI2C
