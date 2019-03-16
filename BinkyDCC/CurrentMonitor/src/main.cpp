@@ -16,9 +16,9 @@ void showPercentage();
 
 #define SCL_PHYS_PIN 7
 #define SDA_PHYS_PIN 5
-#define POWER_ON_PORT PB3  // digital port to turn booster on/off (pin 2)
+#define POWER_ON_PORT PB1  // digital port to turn booster on/off (pin 6)
 #define POT_CHAN 2         // ADC channel connected to pot-meter (pin 3)
-#define CURRENT_CHAN 0     // ADC channel connected to current output of H-Bridge (pin 1)
+#define CURRENT_CHAN 3     // ADC channel connected to current output of H-Bridge (pin 2)
 float potReading = 0;
 int currentReading = 0;
 
