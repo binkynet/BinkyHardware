@@ -1,0 +1,6 @@
+{
+    "terminal.integrated.env.osx": {
+        "PATH": "/Users/ewout/.platformio/penv/bin:/Users/ewout/.platformio/penv:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/usr/local/MacGPG2/bin:/usr/local/share/dotnet:/opt/X11/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/Applications/Wireshark.app/Contents/MacOS:/usr/local/git/bin:/Users/ewout/Library/Android/sdk/tools:/Users/ewout/Library/Android/sdk/platform-tools:/Users/ewout/bin:/Users/ewout/google-cloud-sdk/bin:/usr/local/go/bin:/Users/ewout/go/bin:/usr/local/kubebuilder/bin:/Users/ewout/.linkerd2/bin:/Users/ewout/pulcy/pulsar:/Users/ewout/pulcy/j2:/Users/ewout/pulcy/vault-monkey:/Users/ewout/pulcy/quark:/Users/ewout/pulcy/foxx-installer:/opt/local/bin:/opt/local/sbin",
+        "PLATFORMIO_CALLER": "vscode"
+    }
+}
