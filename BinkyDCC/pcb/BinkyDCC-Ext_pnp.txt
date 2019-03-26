@@ -1,0 +1,32 @@
+*Pick And Place List
+*Company=
+*Author=
+*eMail=
+*
+*Project=BinkyDCC-Ext
+*Date=11:02:11
+*CreatedBy=Fritzing 0.9.3b.04.19.5c895d327c44a3114e5fcc9d8260daf0cbb52806
+*
+*
+*Coordinates in mm, always center of component
+*Origin 0/0=Lower left corner of PCB
+*Rotation in degree (0-360, math. pos.)
+*
+*No;Value;Package;X;Y;Rotation;Side;Name
+1;;;16.4018;-20.3872;0;Bottom;Via5
+2;1k;THT;4.10059;-34.1215;-90;Bottom;R2
+3;;;21.5503;-37.932;0;Bottom;Part1
+4;;THT;4.04365;-47.2657;180;Bottom;J3LCD
+5;;THT;26.3129;-9.30433;90;Bottom;R4
+6;;;3.30576;-56.5419;0;Bottom;Hole3
+7;;;31.5854;-17.4309;0;Bottom;Via3
+8;;;3.17001;-3.18384;0;Bottom;Hole4
+9;;THT;13.653;-6.1072;90;Bottom;J2
+10;;THT;3.91651;-18.3774;0;Bottom;J1HBR
+11;10k;THT;9.66679;-17.0788;90;Bottom;R3
+12;1k;THT;8.36887;-25.1042;-90;Bottom;R1
+13;;;81.6552;-56.7693;0;Bottom;Hole2
+14;;;81.7058;-3.23125;0;Bottom;Hole1
+15;;;13.6972;-1.8871;0;Bottom;TXT3
+16;;THT;39.0999;-29.7219;0;Bottom;J1
+17;;TO92 [THT];9.20656;-40.501;90;Bottom;Q1
