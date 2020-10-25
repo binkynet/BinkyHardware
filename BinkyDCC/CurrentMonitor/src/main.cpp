@@ -23,6 +23,8 @@ void showPercentage();
 float potReading = 0;
 int currentReading = 0;
 int enableReq = 0;
+int lastEnableReq = 0;
+int bootstrapChanges = 4;
 bool waitForNotEnabledReq = true;
 
 LiquidCrystal_I2C lcd(0x27, 16, 2); // set address & 16 chars / 2 lines
@@ -48,7 +50,7 @@ void setup()
   lcd.print(VERSION);
   delay(1000);
   lcd.clear();
-  turnPowerOn();
+  turnPowerOff();
   delay(500);
   now = millis();
 }
@@ -69,6 +71,12 @@ void loop()
   for (int xx = 0; xx < avgTimes; xx++)
   {
     enableReq = digitalRead(ENREQ_PORT);
+    if (enableReq != lastEnableReq) {
+      lastEnableReq = enableReq;
+      if (bootstrapChanges > 0) {
+        bootstrapChanges--;
+      }
+    }
     if (!enableReq) {
       waitForNotEnabledReq = false;
       turnPowerOff();
@@ -95,7 +103,7 @@ void loop()
       lcd.print("  ");
     }
   }
-  if ((enableReq) && (!waitForNotEnabledReq)) {
+  if ((enableReq) && (!waitForNotEnabledReq) && (bootstrapChanges == 0)) {
     turnPowerOn();
   }
   lastAverage = currentReading; // keep for compare & print
@@ -127,10 +135,14 @@ void turnPowerOff()
 {
   digitalWrite(EN_PORT, LOW);
   lcd.setCursor(0, 1);
-  if (waitForNotEnabledReq) {
-    lcd.print("PWR OFF");
+  if (bootstrapChanges == 0) {
+    if (waitForNotEnabledReq) {
+      lcd.print("PWR OFF");
+    } else {
+      lcd.print("PWR Off");
+    }
   } else {
-    lcd.print("PWR Off");
+    lcd.print("PWR Bts");
   }
 /*  delay(2000);
   turnPowerOn();
