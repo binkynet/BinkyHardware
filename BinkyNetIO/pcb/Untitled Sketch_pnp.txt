@@ -1,0 +1,98 @@
+*Pick And Place List
+*Company=
+*Author=
+*eMail=
+*
+*Project=Untitled Sketch
+*Date=15:54:09
+*CreatedBy=Fritzing 0.9.3b.04.19.5c895d327c44a3114e5fcc9d8260daf0cbb52806
+*
+*
+*Coordinates in mm, always center of component
+*Origin 0/0=Lower left corner of PCB
+*Rotation in degree (0-360, math. pos.)
+*
+*No;Value;Package;X;Y;Rotation;Side;Name
+1;;300 mil [THT];17.7662;-39.1821;0;Bottom;D1
+2;;THT;52.7166;-18.8621;-90;Bottom;RIN56
+3;;;62.2415;-56.3271;0;Bottom;Via1
+4;10µF;100 mil [THT, electrolytic];13.9816;-56.9621;0;Bottom;C3
+5;;DIP (Dual Inline) [THT];17.7916;-48.0721;-90;Bottom;IC2
+6;0.1mF;100 mil [THT, electrolytic];13.9816;-63.3121;90;Bottom;C2
+7;;;79.3866;-4.25711;0;Bottom;Hole4
+8;;;80.1988;-23.3718;-90;Bottom;TXT5
+9;;;49.5415;-11.8772;0;Bottom;Via5
+10;;relay-g5v;64.1466;-27.7521;-90;Bottom;U7
+11;;;45.2518;-0.630547;0;Bottom;TXT3
+12;2.2k;THT;63.5116;-61.7246;-90;Bottom;R7
+13;10000;SIP-9;36.841;-56.9621;180;Bottom;R4
+14;;relay-g5v;47.0016;-27.7521;-90;Bottom;U5
+15;;THT;18.4266;-18.8621;-90;Bottom;RIN12
+16;;300 mil [THT];71.1062;-39.1821;0;Bottom;D7
+17;2.2k;THT;60.2378;-61.6117;-90;Bottom;R6
+18;;;38.7989;-65.9831;180;Bottom;TXT1
+19;;relay-g5v;72.4016;-27.7521;-90;Bottom;U8
+20;;THT;73.0366;-6.1621;180;Bottom;CON78
+21;;;29.9271;-16.7926;0;Bottom;TXT4
+22;;;74.9415;-11.8772;0;Bottom;Via3
+23;;THT;38.1116;-63.3121;90;Bottom;JIO
+24;;THT;74.3066;-15.0521;-90;Bottom;IS8
+25;;relay-g5v;29.8566;-27.7521;-90;Bottom;U3
+26;;THT;66.0516;-15.0521;-90;Bottom;IS7
+27;;THT;44.9696;-7.1781;-90;Bottom;ROUT
+28;;;47.0016;-16.7926;0;Bottom;TXT4
+29;;THT;48.9066;-15.0521;-90;Bottom;IS5
+30;;;7.6316;-12.5121;-90;Bottom;Fuse1
+31;220;THT;66.3691;-44.2621;180;Bottom;R1
+32;;THT;3.8216;-36.0071;0;Bottom;JI2CB2
+33;10000;SIP-9;34.3019;-41.0871;0;Bottom;R8
+34;;THT;18.2996;-7.1781;-90;Bottom;RAB
+35;;;12.8292;-16.8394;0;Bottom;TXT4
+36;;;21.0843;-16.8394;0;Bottom;TXT4
+37;;relay-g5v;55.2566;-27.7521;-90;Bottom;U6
+38;;THT;79.3866;-48.7071;180;Bottom;JI2C
+39;;THT;70.4966;-6.1621;180;Bottom;CON56
+40;;THT;71.1316;-62.0421;-90;Bottom;JA
+41;;;23.5065;-11.8772;0;Bottom;Via8
+42;;THT;14.6166;-15.0521;-90;Bottom;IS1
+43;;;57.7965;-11.8772;0;Bottom;Via4
+44;;THT;22.8716;-15.0521;-90;Bottom;IS2
+45;;;2.5516;-12.5121;-90;Bottom;Fuse2
+46;;;15.2515;-11.8772;0;Bottom;Via9
+47;;;5.83503;-50.4614;90;Bottom;TXT2
+48;;;77.4453;-48.4014;-90;Bottom;TXT2
+49;;300 mil [THT];49.5162;-36.6421;0;Bottom;D5
+50;;THT;5.7266;-20.7671;0;Bottom;CON12
+51;;;5.85358;-35.98;90;Bottom;TXT2
+52;;;38.2056;-16.8394;0;Bottom;TXT4
+53;;300 mil [THT];71.1062;-36.6421;0;Bottom;D8
+54;;;3.82159;-4.25711;0;Bottom;Hole3
+55;;THT;70.4966;-18.8621;-90;Bottom;RIN78
+56;;THT;35.5716;-18.8621;-90;Bottom;RIN34
+57;;;40.6515;-11.8772;0;Bottom;Via6
+58;;THT;31.7616;-15.0521;-90;Bottom;IS3
+59;;;32.3965;-11.8772;0;Bottom;Via7
+60;220;THT;65.7341;-53.7871;0;Bottom;R3
+61;;300 mil [THT];39.407;-36.6421;0;Bottom;D4
+62;;sot89;20.1015;-60.9271;180;Top;Q1
+63;;THT;3.8216;-50.6121;0;Bottom;JI2CB1
+64;;;17.5094;-0.729319;0;Bottom;TXT3
+65;;300 mil [THT];59.6762;-36.6421;0;Bottom;D6
+66;;300 mil [THT];17.7662;-36.6421;0;Bottom;D2
+67;100nF;100 mil [THT, multilayer];21.6016;-55.6921;180;Bottom;C1
+68;;;55.3271;-16.8394;0;Bottom;TXT4
+69;;300 mil [THT];27.977;-36.6421;0;Bottom;D3
+70;;;79.3866;-62.0421;0;Bottom;Hole1
+71;;THT;5.7266;-26.4821;180;Bottom;CON34
+72;;THT;57.1616;-15.0521;-90;Bottom;IS6
+73;;relay-g5v;12.7116;-27.7521;-90;Bottom;U1
+74;;;66.6865;-11.8772;0;Bottom;Via2
+75;;;3.82159;-62.0421;0;Bottom;Hole2
+76;;;64.17;-16.8394;0;Bottom;TXT4
+77;;;43.1916;-48.0721;0;Bottom;IC1
+78;;THT;40.0166;-15.0521;-90;Bottom;IS4
+79;220;THT;67.3216;-49.0246;-90;Bottom;R2
+80;;relay-g5v;38.1116;-27.7521;-90;Bottom;U4
+81;2.2k;THT;56.9076;-61.6682;-90;Bottom;R5
+82;;;72.3076;-16.7926;0;Bottom;TXT4
+83;;relay-g5v;20.9666;-27.7521;-90;Bottom;U2
