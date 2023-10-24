@@ -20,7 +20,22 @@ var (
 	colorNoDetections2AdsDevsFound = color.RGBA{R: 0, G: 96, B: 0}
 )
 
+var (
+	LedRed    = machine.GPIO6
+	LedGreen  = machine.GPIO7
+	LedYellow = machine.GPIO10
+)
+
 func main() {
+	// Configure leds
+	LedRed.Configure(machine.PinConfig{Mode: machine.PinOutput})
+	LedGreen.Configure(machine.PinConfig{Mode: machine.PinOutput})
+	LedYellow.Configure(machine.PinConfig{Mode: machine.PinOutput})
+	// Set initial state
+	LedRed.Low()    // Turn on
+	LedGreen.High() // Turn off
+	LedYellow.Low() // Turn on
+
 	// Configure neopixel
 	machine.NEOPIXEL.Configure(machine.PinConfig{Mode: machine.PinOutput})
 	led := ws2812.New(machine.NEOPIXEL)
@@ -40,7 +55,9 @@ func main() {
 		)
 	}
 
-	go probeSensors(sensors, adsDevs, led, baseColor)
+	sensorStatus := make(chan uint8)
+	go probeSensors(sensors, adsDevs, led, baseColor, sensorStatus)
+	go listenForPCF8574Requests(machine.I2C1, 34, sensorStatus)
 
 	for {
 		time.Sleep(time.Minute)

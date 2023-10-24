@@ -10,9 +10,10 @@ import (
 )
 
 // Keep probing sensors
-func probeSensors(sensors []*Sensor, adsDevs []*ads1115.Device, led ws2812.Device, baseColor color.RGBA) {
+func probeSensors(sensors []*Sensor, adsDevs []*ads1115.Device,
+	led ws2812.Device, baseColor color.RGBA, sensorStatus chan uint8) {
 	for {
-		if err := probeSensorsOnce(sensors, led, baseColor); err != nil {
+		if err := probeSensorsOnce(sensors, led, baseColor, sensorStatus); err != nil {
 			// Wait a bit
 			time.Sleep(time.Millisecond * 200)
 			// Reset ADS devices
@@ -30,18 +31,22 @@ func probeSensors(sensors []*Sensor, adsDevs []*ads1115.Device, led ws2812.Devic
 }
 
 // Probe all sensors once
-func probeSensorsOnce(sensors []*Sensor, led ws2812.Device, baseColor color.RGBA) error {
+func probeSensorsOnce(sensors []*Sensor,
+	led ws2812.Device, baseColor color.RGBA, sensorStatus chan uint8) error {
 	activeCount := uint8(0)
 	var allErrs error
-	for _, s := range sensors {
+	status := uint8(0)
+	for idx, s := range sensors {
 		if err := s.Probe(); err != nil {
 			println("probe failed: ", err)
 			allErrs = errors.Join(allErrs, err)
 		}
 		if s.IsActive() {
 			activeCount++
+			status |= 1 << idx
 		}
 	}
+	sensorStatus <- status
 
 	if allErrs != nil {
 		baseColor = color.RGBA{R: 255, G: 0, B: 0}
