@@ -24,6 +24,15 @@ var (
 	LedRed    = machine.GPIO6
 	LedGreen  = machine.GPIO7
 	LedYellow = machine.GPIO10
+
+	IO1 = machine.GPIO29
+	IO2 = machine.GPIO28
+	IO3 = machine.GPIO27
+	IO4 = machine.GPIO26
+	IO5 = machine.GPIO15
+	IO6 = machine.GPIO14
+	IO7 = machine.GPIO13
+	IO8 = machine.GPIO12
 )
 
 func main() {
@@ -31,10 +40,27 @@ func main() {
 	LedRed.Configure(machine.PinConfig{Mode: machine.PinOutput})
 	LedGreen.Configure(machine.PinConfig{Mode: machine.PinOutput})
 	LedYellow.Configure(machine.PinConfig{Mode: machine.PinOutput})
+	// Configure IO pins
+	IO1.Configure(machine.PinConfig{Mode: machine.PinInputPullup})
+	IO2.Configure(machine.PinConfig{Mode: machine.PinInputPullup})
+	IO3.Configure(machine.PinConfig{Mode: machine.PinInputPullup})
+	IO4.Configure(machine.PinConfig{Mode: machine.PinInputPullup})
+	IO5.Configure(machine.PinConfig{Mode: machine.PinInputPullup})
+	IO6.Configure(machine.PinConfig{Mode: machine.PinInputPullup})
+	IO7.Configure(machine.PinConfig{Mode: machine.PinInputPullup})
+	IO8.Configure(machine.PinConfig{Mode: machine.PinInputPullup})
 	// Set initial state
 	LedRed.Low()    // Turn on
 	LedGreen.High() // Turn off
 	LedYellow.Low() // Turn on
+
+	// Detect I2C address
+	i2cAddress := uint8(34)
+	if !IO1.Get() {
+		// IO1 pull down to GND
+		i2cAddress++
+	}
+	println("Found i2c address: ", i2cAddress)
 
 	// Configure neopixel
 	machine.NEOPIXEL.Configure(machine.PinConfig{Mode: machine.PinOutput})
@@ -57,7 +83,12 @@ func main() {
 
 	sensorStatus := make(chan uint8)
 	go probeSensors(sensors, adsDevs, led, baseColor, sensorStatus)
-	go listenForPCF8574Requests(machine.I2C1, 34, sensorStatus)
+	go listenForPCF8574Requests(machine.I2C1, i2cAddress, sensorStatus)
+
+	// Set leds to running state
+	LedRed.High()                   // Turn off
+	LedGreen.Low()                  // Turn on
+	LedYellow.Set(i2cAddress == 34) // Turn off (34), turn on (35)
 
 	for {
 		time.Sleep(time.Minute)

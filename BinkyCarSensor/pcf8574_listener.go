@@ -19,6 +19,7 @@ func listenForPCF8574Requests(i2c *machine.I2C, i2cAddress uint8, sensorStatus <
 	if err := i2c.Listen(uint16(i2cAddress)); err != nil {
 		return fmt.Errorf("Failed to listen on i2c bus: %w", err)
 	}
+	println("Listening on i2c address: ", i2cAddress)
 
 	// Process events & status changes
 	events := make(chan machine.I2CTargetEvent)
