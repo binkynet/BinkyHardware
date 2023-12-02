@@ -25,7 +25,7 @@ func probeSensors(sensors []*Sensor, adsDevs []*ads1115.Device,
 				}
 			}
 		} else {
-			time.Sleep(time.Millisecond * 100)
+			time.Sleep(probeInterval)
 		}
 	}
 }

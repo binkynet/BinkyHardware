@@ -8,7 +8,7 @@ import (
 
 var (
 	// Current firward version
-	version = []byte{0, 0, 1} // Major.Minor.Patch
+	version = []byte{0, 1, 0} // Major.Minor.Patch
 )
 
 const (
