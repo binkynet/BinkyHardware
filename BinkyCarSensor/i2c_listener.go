@@ -13,9 +13,11 @@ var (
 
 const (
 	// Register addresses
-	RegVersion        = 0x00 // No input, returns 3 version bytes
-	RegCarSensorCount = 0x01 // No input, returns 1 byte giving the number of detected car sensor bits (0..8)
-	RegI2COutputCount = 0x02 // No input, returns 1 byte giving the number of detected I2C binary output pins (0, 8, 16, ..., 256)
+	RegVersionMajor   = 0x00 // No input, returns 1 version
+	RegVersionMinor   = 0x01 // No input, returns 1 version
+	RegVersionPatch   = 0x02 // No input, returns 1 version
+	RegCarSensorCount = 0x03 // No input, returns 1 byte giving the number of detected car sensor bits (0..8)
+	RegI2COutputCount = 0x04 // No input, returns 1 byte giving the number of detected I2C binary output pins (0, 8, 16, ..., 256)
 	RegCarSensorState = 0x10 // No input, returns 1 byte with 8-bit car detection sensor state
 	RegOutput         = 0x20 // 1 byte input, targeting 8 on-pcb output pins
 	RegOutputI2C0     = 0x21 // 1 byte input, targeting 8 output pins on PCF8574 output device 0
@@ -114,8 +116,12 @@ func listenForIncomingI2CRequests(i2c *machine.I2C, i2cAddress uint8,
 						lastRequestReq = evt.Register
 					}
 					switch evt.Register {
-					case RegVersion:
-						i2c.Reply(version)
+					case RegVersionMajor:
+						i2c.Reply(version[0:1])
+					case RegVersionMinor:
+						i2c.Reply(version[1:2])
+					case RegVersionPatch:
+						i2c.Reply(version[2:3])
 					case RegCarSensorCount:
 						i2c.Reply([]byte{carSensorBitsCount})
 					case RegI2COutputCount:
