@@ -59,8 +59,7 @@ func listenForIncomingI2CRequests(i2c *machine.I2C, i2cAddress uint8,
 	// Process events & status changes
 	events := make(chan incomingI2CEvent)
 	go func() {
-		lastReceiveReg := uint8(0)
-		lastReceiveVal := uint8(0)
+		lastOutputVals := make([]uint8, 9)
 		lastRequestReq := uint8(0)
 		var responseBuf [1]uint8
 		var lastSensorStatus uint8
@@ -76,11 +75,12 @@ func listenForIncomingI2CRequests(i2c *machine.I2C, i2cAddress uint8,
 				// Handle event
 				switch evt.Event {
 				case machine.I2CReceive:
-					if lastReceiveReg != evt.Register || lastReceiveVal != evt.Value {
-						println("PCF8574:Receive ", evt.Register, evt.Value)
-						lastReceiveReg = evt.Register
-						lastReceiveVal = evt.Value
-
+					if evt.Register >= RegOutput && evt.Register < RegOutputI2C7 {
+						outputIndex := evt.Register - RegOutput
+						if lastOutputVals[outputIndex] != evt.Value {
+							println("I2C:Receive Output ", outputIndex, evt.Value)
+							lastOutputVals[outputIndex] = evt.Value
+						}
 					}
 					switch evt.Register {
 					case RegOutput:
@@ -108,11 +108,15 @@ func listenForIncomingI2CRequests(i2c *machine.I2C, i2cAddress uint8,
 							// We did not send the bit in time
 							println("Failed to send PCF output in time: ", output.Value, "->", output.DeviceIndex)
 						}
+					case RegCarSensorState:
+						// Ignore
+					default:
+						println("I2C:Receive: Invalid register ", evt.Register, evt.HasValue, evt.Value)
 					}
 				case machine.I2CRequest:
 					// Reply with current state of sensors
 					if lastRequestReq != evt.Register {
-						println("PCF8574:Request ", evt.Register, "->", responseBuf[0])
+						println("I2C:Request ", evt.Register, "->", responseBuf[0])
 						lastRequestReq = evt.Register
 					}
 					switch evt.Register {
