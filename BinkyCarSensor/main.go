@@ -33,7 +33,56 @@ var (
 		machine.GPIO13,
 		machine.GPIO12,
 	}
+	PWMBySlice = []pwm{
+		machine.PWM0,
+		machine.PWM1,
+		machine.PWM2,
+		machine.PWM3,
+		machine.PWM4,
+		machine.PWM5,
+		machine.PWM6,
+		machine.PWM7,
+	}
 )
+
+type pwm interface {
+	// Configure enables and configures this PWM.
+	Configure(config machine.PWMConfig) error
+	// Channel returns a PWM channel for the given pin. If pin does
+	// not belong to PWM peripheral ErrInvalidOutputPin error is returned.
+	// It also configures pin as PWM output.
+	Channel(pin machine.Pin) (channel uint8, err error)
+	// SetPeriod updates the period of this PWM peripheral in nanoseconds.
+	// To set a particular frequency, use the following formula:
+	//
+	//	period = 1e9 / frequency
+	//
+	// Where frequency is in hertz. If you use a period of 0, a period
+	// that works well for LEDs will be picked.
+	//
+	// SetPeriod will try not to modify TOP if possible to reach the target period.
+	// If the period is unattainable with current TOP SetPeriod will modify TOP
+	// by the bare minimum to reach the target period. It will also enable phase
+	// correct to reach periods above 130ms.
+	SetPeriod(period uint64) error
+	// Top returns the current counter top, for use in duty cycle calculation.
+	//
+	// The value returned here is hardware dependent. In general, it's best to treat
+	// it as an opaque value that can be divided by some number and passed to Set
+	// (see Set documentation for more information).
+	Top() uint32
+	// Set updates the channel value. This is used to control the channel duty
+	// cycle, in other words the fraction of time the channel output is high (or low
+	// when inverted). For example, to set it to a 25% duty cycle, use:
+	//
+	//	pwm.Set(channel, pwm.Top() / 4)
+	//
+	// pwm.Set(channel, 0) will set the output to low and pwm.Set(channel,
+	// pwm.Top()) will set the output to high, assuming the output isn't inverted.
+	Set(channel uint8, value uint32)
+	// Enable enables or disables PWM peripheral channels.
+	Enable(enable bool)
+}
 
 const (
 	defaultI2cAddress = uint8(0x34)

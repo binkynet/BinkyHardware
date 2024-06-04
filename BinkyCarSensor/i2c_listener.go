@@ -28,6 +28,16 @@ const (
 	RegOutputI2C5     = 0x26 // 1 byte input, targeting 8 output pins on PCF8574 output device 5
 	RegOutputI2C6     = 0x27 // 1 byte input, targeting 8 output pins on PCF8574 output device 6
 	RegOutputI2C7     = 0x28 // 1 byte input, targeting 8 output pins on PCF8574 output device 7
+	RegConfigurePWM0  = 0x30 // 1 byte input, pwm-value (0-256) of pin 0
+	RegConfigurePWM1  = 0x31 // 1 byte input, pwm-value (0-256) of pin 1
+	RegConfigurePWM2  = 0x32 // 1 byte input, pwm-value (0-256) of pin 2
+	RegConfigurePWM3  = 0x33 // 1 byte input, pwm-value (0-256) of pin 3
+	RegConfigurePWM4  = 0x34 // 1 byte input, pwm-value (0-256) of pin 4
+	RegConfigurePWM5  = 0x35 // 1 byte input, pwm-value (0-256) of pin 5
+	RegConfigurePWM6  = 0x36 // 1 byte input, pwm-value (0-256) of pin 6
+	RegConfigurePWM7  = 0x37 // 1 byte input, pwm-value (0-256) of pin 7
+
+	pwmPeriod = uint64(1e9) / 60
 )
 
 // Single i2c message sent to the incoming i2c port
@@ -61,6 +71,8 @@ func listenForIncomingI2CRequests(i2c *machine.I2C, i2cAddress uint8,
 	go func() {
 		lastOutputVals := make([]uint8, 9)
 		lastRequestReq := uint8(0)
+		isPWM := make([]bool, 8)
+		pwmValues := make([]uint16, 0xffff)
 		var responseBuf [1]uint8
 		var lastSensorStatus uint8
 		for {
@@ -87,14 +99,30 @@ func listenForIncomingI2CRequests(i2c *machine.I2C, i2cAddress uint8,
 						if evt.HasValue {
 							// Since we pull IO1 down to use alternate i2c address,
 							// we do not allow setting it high when using the alternate address.
-							setIOx(IO[0], evt.Value&0x01 != 0 && i2cAddress == defaultI2cAddress)
-							setIOx(IO[1], evt.Value&0x02 != 0)
-							setIOx(IO[2], evt.Value&0x04 != 0)
-							setIOx(IO[3], evt.Value&0x08 != 0)
-							setIOx(IO[4], evt.Value&0x10 != 0)
-							setIOx(IO[5], evt.Value&0x20 != 0)
-							setIOx(IO[6], evt.Value&0x40 != 0)
-							setIOx(IO[7], evt.Value&0x80 != 0)
+							if !isPWM[0] {
+								setIOx(IO[0], evt.Value&0x01 != 0 && i2cAddress == defaultI2cAddress)
+							}
+							if !isPWM[1] {
+								setIOx(IO[1], evt.Value&0x02 != 0)
+							}
+							if !isPWM[2] {
+								setIOx(IO[2], evt.Value&0x04 != 0)
+							}
+							if !isPWM[3] {
+								setIOx(IO[3], evt.Value&0x08 != 0)
+							}
+							if !isPWM[4] {
+								setIOx(IO[4], evt.Value&0x10 != 0)
+							}
+							if !isPWM[5] {
+								setIOx(IO[5], evt.Value&0x20 != 0)
+							}
+							if !isPWM[6] {
+								setIOx(IO[6], evt.Value&0x40 != 0)
+							}
+							if !isPWM[7] {
+								setIOx(IO[7], evt.Value&0x80 != 0)
+							}
 						}
 					case RegOutputI2C0, RegOutputI2C1, RegOutputI2C2, RegOutputI2C3, RegOutputI2C4, RegOutputI2C5, RegOutputI2C6, RegOutputI2C7:
 						output := pcfOutput{
@@ -110,6 +138,16 @@ func listenForIncomingI2CRequests(i2c *machine.I2C, i2cAddress uint8,
 						}
 					case RegCarSensorState:
 						// Ignore
+					case RegConfigurePWM0, RegConfigurePWM1, RegConfigurePWM2, RegConfigurePWM3, RegConfigurePWM4, RegConfigurePWM5, RegConfigurePWM6, RegConfigurePWM7:
+						ioIndex := evt.Register - RegConfigurePWM0
+						value := evt.Value
+						if ioIndex < 8 {
+							isPWM[ioIndex] = true
+						}
+						if value != uint8(pwmValues[ioIndex]) {
+							setPWM(ioIndex, value)
+							pwmValues[ioIndex] = uint16(value)
+						}
 					default:
 						println("I2C:Receive: Invalid register ", evt.Register, evt.HasValue, evt.Value)
 					}
@@ -170,4 +208,23 @@ func setIOx(io machine.Pin, value bool) {
 	} else {
 		io.Configure(machine.PinConfig{Mode: machine.PinInputPulldown})
 	}
+}
+
+// Set a PWM output
+func setPWM(ioIndex, value byte) {
+	println("setPWM", ioIndex, " -> ", value)
+	io := IO[ioIndex]
+	slice, _ := machine.PWMPeripheral(io)
+	pwm := PWMBySlice[slice]
+	channel, _ := pwm.Channel(io)
+	targetValue := uint32(0)
+	if value > 0 {
+		fraction := float64(value) / 256
+		targetValue = uint32((float64(pwm.Top()) * fraction))
+	}
+	println("... slice=", slice, " channel=", channel, "->", targetValue)
+	pwm.Enable(false)
+	pwm.SetPeriod(pwmPeriod) // period of 20ms
+	pwm.Set(channel, targetValue)
+	pwm.Enable(true)
 }
